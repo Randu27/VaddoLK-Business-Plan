@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vaddo.lk Business Strategy & Operations Binder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        .binder-tab {
+            transition: all 0.2s ease;
+        }
+        .binder-tab.active {
+            background-color: #ffffff;
+            color: #1e3a8a;
+            border-left: 4px solid #2563eb;
+            font-weight: 700;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.05);
+        }
+        /* Custom Scrollbar for clean look */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            switch: auto;
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 font-sans text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Top Header -->
+    <header class="bg-emerald-900 text-white shadow-md py-4 px-6 md:px-10 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div>
+            <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight flex items-center gap-2">
+                <span>vaddo.lk</span> 
+                <span class="text-xs font-semibold px-2.5 py-1 bg-emerald-800 rounded-full text-emerald-200 border border-emerald-700">Operations Binder</span>
+            </h1>
+            <p class="text-xs md:text-sm text-emerald-200 mt-0.5">Software Services & Communication Center</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <span class="text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-3 py-1 rounded-full font-medium">100% Founder Operated</span>
+            <button onclick="resetData()" class="text-xs bg-emerald-800 hover:bg-emerald-700 text-emerald-200 px-3 py-1.5 rounded transition border border-emerald-700">Reset Checklists</button>
+        </div>
+    </header>
+
+    <!-- Main Binder Layout -->
+    <div class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+        <!-- Sidebar / Binder Tabs -->
+        <aside class="lg:col-span-1 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+            <div class="p-4 bg-slate-50 border-b border-slate-200 font-bold text-slate-700 text-xs uppercase tracking-wider">
+                Binder Sections
+            </div>
+            <nav class="flex flex-col py-2" id="binderNav">
+                <button onclick="switchTab('vision')" class="binder-tab active text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50 flex items-center justify-between border-l-4 border-transparent" data-target="vision">
+                    <span>01. Vision & Strategy</span>
+                    <span class="text-xs text-slate-400">Tab 1</span>
+                </button>
+                <button onclick="switchTab('services')" class="binder-tab text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50 flex items-center justify-between border-l-4 border-transparent" data-target="services">
+                    <span>02. Services Lineup</span>
+                    <span class="text-xs text-slate-400">Tab 2</span>
+                </button>
+                <button onclick="switchTab('operations')" class="binder-tab text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50 flex items-center justify-between border-l-4 border-transparent" data-target="operations">
+                    <span>03. Daily Peak Flows</span>
+                    <span class="text-xs text-slate-400">Tab 3</span>
+                </button>
+                <button onclick="switchTab('equipment')" class="binder-tab text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50 flex items-center justify-between border-l-4 border-transparent" data-target="equipment">
+                    <span>04. Equipment & Setup</span>
+                    <span class="text-xs text-slate-400">Tab 4</span>
+                </button>
+                <button onclick="switchTab('retail')" class="binder-tab text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50 flex items-center justify-between border-l-4 border-transparent" data-target="retail">
+                    <span>05. Retail & Partnerships</span>
+                    <span class="text-xs text-slate-400">Tab 5</span>
+                </button>
+                <button onclick="switchTab('capital')" class="binder-tab text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50 flex items-center justify-between border-l-4 border-transparent" data-target="capital">
+                    <span>06. Initial Capital Summary</span>
+                    <span class="text-xs text-slate-400">Tab 6</span>
+                </button>
+                <button onclick="switchTab('tech')" class="binder-tab text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50 flex items-center justify-between border-l-4 border-transparent" data-target="tech">
+                    <span>07. Software & AI Stack</span>
+                    <span class="text-xs text-slate-400">Tab 7</span>
+                </button>
+            </nav>
+            <div class="p-4 bg-slate-50 border-t border-slate-200 mt-auto">
+                <div class="text-xs font-semibold text-slate-500 mb-1">Readiness Progress</div>
+                <div class="w-full bg-slate-200 rounded-full h-2">
+                    <div id="progressBar" class="bg-emerald-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <div id="progressText" class="text-right text-[10px] text-slate-400 mt-1">0% Completed</div>
+            </div>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="lg:col-span-3 space-y-6">
+
+            <!-- TAB 01: Vision & Strategy -->
+            <section id="vision" class="tab-content bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <div class="border-b border-slate-100 pb-4 mb-6">
+                    <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Section 01</span>
+                    <h2 class="text-xl md:text-2xl font-bold text-slate-900 mt-1">Vision & Hybrid Strategy</h2>
+                </div>
+                <div class="space-y-6 text-slate-600 leading-relaxed">
+                    <div class="bg-emerald-50 border-l-4 border-emerald-600 p-4 rounded-r-lg">
+                        <h3 class="font-bold text-emerald-900 text-sm mb-1">Core Concept</h3>
+                        <p class="text-sm text-emerald-800">A hybrid physical-digital business located in a suburban residential hub like Gampaha to minimize rent, combining everyday communication center utility with high-value software services under <strong>vaddo.lk</strong>.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                            <h4 class="font-semibold text-slate-800 text-sm mb-2">Key Advantages</h4>
+                            <ul class="space-y-1.5 text-xs text-slate-600 list-disc list-inside">
+                                <li>Registered business entity ready</li>
+                                <li>100% full-time commitment from founders</li>
+                                <li>Early 6:15 AM opening to capture commuter rush</li>
+                                <li>Zero-capital referral network via family uncles</li>
+                            </ul>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                            <h4 class="font-semibold text-slate-800 text-sm mb-2">Community Impact</h4>
+                            <ul class="space-y-1.5 text-xs text-slate-600 list-disc list-inside">
+                                <li>Homework support for stressed parents & children</li>
+                                <li>Affordable digital access for local SMEs</li>
+                                <li>Convenient neighborhood document & utility services</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-slate-800 text-sm mb-2">Founder Notes & Strategy Adjustments</h4>
+                        <textarea id="notes-vision" oninput="saveNotes('vision')" class="w-full h-28 p-3 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Type any personal notes, landlord negotiations, or strategic ideas here..."></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 02: Services Lineup -->
+            <section id="services" class="tab-content hidden bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <div class="border-b border-slate-100 pb-4 mb-6">
+                    <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Section 02</span>
+                    <h2 class="text-xl md:text-2xl font-bold text-slate-900 mt-1">Services Lineup</h2>
+                </div>
+                <div class="space-y-4">
+                    <p class="text-xs text-slate-500">Check off the services you are ready to offer from day one:</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="servicesList">
+                        <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 cursor-pointer">
+                            <input type="checkbox" class="checklist-item w-4 h-4 text-emerald-600 rounded border-slate-300" onchange="updateProgress()">
+                            <span class="text-xs font-medium text-slate-800">Everyday Utilities (Printing, Photocopying, Scanning)</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 cursor-pointer">
+                            <input type="checkbox" class="checklist-item w-4 h-4 text-emerald-600 rounded border-slate-300" onchange="updateProgress()">
+                            <span class="text-xs font-medium text-slate-800">Government Form Filling & Document Submissions</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 cursor-pointer">
+                            <input type="checkbox" class="checklist-item w-4 h-4 text-emerald-600 rounded border-slate-300" onchange="updateProgress()">
+                            <span class="text-xs font-medium text-slate-800">Hotel Booking Assistance & Travel Logistics</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 cursor-pointer">
+                            <input type="checkbox" class="checklist-item w-4 h-4 text-emerald-600 rounded border-slate-300" onchange="updateProgress()">
+                            <span class="text-xs font-medium text-slate-800">vaddo.lk Websites & Landing Pages</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 cursor-pointer">
+                            <input type="checkbox" class="checklist-item w-4 h-4 text-emerald-600 rounded border-slate-300" onchange="updateProgress()">
+                            <span class="text-xs font-medium text-slate-800">Professional CV Makeovers & Optimized LinkedIn Profiles</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 cursor-pointer">
+                            <input type="checkbox" class="checklist-item w-4 h-4 text-emerald-600 rounded border-slate-300" onchange="updateProgress()">
+                            <span class="text-xs font-medium text-slate-800">Meta Ad Campaigns & Social Media Setup for SMEs</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 cursor-pointer">
+                            <input type="checkbox" class="checklist-item w-4 h-4 text-emerald-600 rounded border-slate-300" onchange="updateProgress()">
+                            <span class="text-xs font-medium text-slate-800">Digital Wedding Invitation Links</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 cursor-pointer">
+                            <input type="checkbox" class="checklist-item w-4 h-4 text-emerald-600 rounded border-slate-300" onchange="updateProgress()">
+                            <span class="text-xs font-medium text-slate-800">University IT Projects, Group/Individual Assignments & Research Help</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 cursor-pointer">
+                            <input type="checkbox" class="checklist-item w-4 h-4 text-emerald-600 rounded border-slate-300" onchange="updateProgress()">
+                            <span class="text-xs font-medium text-slate-800">Neighborhood Children's Homework Assistance & Support</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 03: Daily Peak Flows -->
+            <section id="operations" class="tab-content hidden bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <div class="border-b border-slate-100 pb-4 mb-6">
+                    <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Section 03</span>
+                    <h2 class="text-xl md:text-2xl font-bold text-slate-900 mt-1">Daily Peak Flows & Operating Schedule</h2>
+                </div>
+                <div class="space-y-4 text-slate-600">
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg">
+                        <div class="flex justify-between items-center mb-1">
+                            <h3 class="font-bold text-slate-800 text-sm">Early Morning Commuter Rush</h3>
+                            <span class="text-xs bg-emerald-100 text-emerald-700 font-semibold px-2 py-0.5 rounded">6:15 AM Onwards</span>
+                        </div>
+                        <p class="text-xs text-slate-600">Early opening to capture students and commuters heading out. Quick prints, photocopies, transport tickets, and urgent utilities.</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg">
+                        <div class="flex justify-between items-center mb-1">
+                            <h3 class="font-bold text-slate-800 text-sm">Mid-Day Digital Production Window</h3>
+                            <span class="text-xs bg-indigo-100 text-indigo-700 font-semibold px-2 py-0.5 rounded">Late Morning / Noon</span>
+                        </div>
+                        <p class="text-xs text-slate-600">Focus on vaddo.lk web development, digital wedding invitation creation, university IT projects, and Meta ad campaign management.</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg">
+                        <div class="flex justify-between items-center mb-1">
+                            <h3 class="font-bold text-slate-800 text-sm">After-School Homework Peak</h3>
+                            <span class="text-xs bg-emerald-100 text-emerald-700 font-semibold px-2 py-0.5 rounded">Afternoon</span>
+                        </div>
+                        <p class="text-xs text-slate-600">Welcoming parents and children dropping by for school project printouts and homework learning support.</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg">
+                        <div class="flex justify-between items-center mb-1">
+                            <h3 class="font-bold text-slate-800 text-sm">Evening SME & Commuter Rush</h3>
+                            <span class="text-xs bg-amber-100 text-amber-700 font-semibold px-2 py-0.5 rounded">Evening</span>
+                        </div>
+                        <p class="text-xs text-slate-600">Government form filing, hotel booking consultations, retail stationery sales, and referral notice board inquiries.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 04: Equipment & Setup -->
+            <section id="equipment" class="tab-content hidden bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <div class="border-b border-slate-100 pb-4 mb-6">
+                    <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Section 04</span>
+                    <h2 class="text-xl md:text-2xl font-bold text-slate-900 mt-1">Equipment, Furniture & Setup Checklist</h2>
+                </div>
+                <div class="space-y-4">
+                    <p class="text-xs text-slate-500">Check off items as you acquire and install them:</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="equipmentList">
+                        <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 cursor-pointer">
+                            <input type="checkbox" class="checklist-item w-4 h-4 text-emerald-600 rounded border-slate-300" onchange="updateProgress()">
+                            <span class="text-xs font-medium text-slate-800">2 Ergonomic Office Chairs (~Rs. 50k–80k)</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 cursor-pointer">
+                            <input type="checkbox" class="checklist-item w-4 h-4 text-emerald-600 rounded border-slate-300" onchange="updateProgress()">
+                            <span class="text-xs font-medium text-slate-800">2–3 Work / Counter Tables (~Rs. 35k–55k)</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 cursor-pointer">
+                            <input type="checkbox" class="checklist-item w-4 h-4 text-emerald-600 rounded border-slate-300" onchange="updateProgress()">
+                            <span class="text-xs font-medium text-slate-800">Storage Cabinets & Cupboards (~Rs. 25k–45k)</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 cursor-pointer">
+                            <input type="checkbox" class="checklist-item w-4 h-4 text-emerald-600 rounded border-slate-300" onchange="updateProgress()">
+                            <span class="text-xs font-medium text-slate-800">Book & Display Racks (~Rs. 20k–35k)</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 cursor-pointer">
+                            <input type="checkbox" class="checklist-item w-4 h-4 text-emerald-600 rounded border-slate-300" onchange="updateProgress()">
+                            <span class="text-xs font-medium text-slate-800">At least 4 Plastic Waiting Chairs (~Rs. 8k–14k)</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 cursor-pointer">
+                            <input type="checkbox" class="checklist-item w-4 h-4 text-emerald-600 rounded border-slate-300" onchange="updateProgress()">
+                            <span class="text-xs font-medium text-slate-800">2 Workstation PCs / Laptops (~Rs. 160k–250k)</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 cursor-pointer">
+                            <input type="checkbox" class="checklist-item w-4 h-4 text-emerald-600 rounded border-slate-300" onchange="updateProgress()">
+                            <span class="text-xs font-medium text-slate-800">Heavy-Duty Multi-Function Printer (~Rs. 75k–130k)</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 cursor-pointer">
+                            <input type="checkbox" class="checklist-item w-4 h-4 text-emerald-600 rounded border-slate-300" onchange="updateProgress()">
+                            <span class="text-xs font-medium text-slate-800">Laminating Machine (~Rs. 15k–25k)</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 cursor-pointer">
+                            <input type="checkbox" class="checklist-item w-4 h-4 text-emerald-600 rounded border-slate-300" onchange="updateProgress()">
+                            <span class="text-xs font-medium text-slate-800">Fiber + 4G Backup Internet Setup (~Rs. 10k–20k)</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 cursor-pointer">
+                            <input type="checkbox" class="checklist-item w-4 h-4 text-emerald-600 rounded border-slate-300" onchange="updateProgress()">
+                            <span class="text-xs font-medium text-slate-800">Outdoor Signboard (~Rs. 25k–50k)</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 cursor-pointer">
+                            <input type="checkbox" class="checklist-item w-4 h-4 text-emerald-600 rounded border-slate-300" onchange="updateProgress()">
+                            <span class="text-xs font-medium text-slate-800">Founder T-Shirts (~Rs. 3k–6k)</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 05: Retail & Partnerships -->
+            <section id="retail" class="tab-content hidden bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <div class="border-b border-slate-100 pb-4 mb-6">
+                    <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Section 05</span>
+                    <h2 class="text-xl md:text-2xl font-bold text-slate-900 mt-1">Retail Corner & Uncles' Referrals</h2>
+                </div>
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="font-semibold text-slate-800 text-sm mb-3">Fast-Moving Stationery Corner</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                            <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700">Exercise & CR Books</div>
+                            <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700">Pens & Pencils</div>
+                            <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700">A4 Sheets & Reams</div>
+                            <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700">Files & Folders</div>
+                            <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700">Envelopes & Glue</div>
+                            <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700">Project Supplies</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-slate-800 text-sm mb-3">Quick-Sell Electronics Corner</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                            <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700">USB Flash Drives</div>
+                            <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700">Memory Cards</div>
+                            <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700">OTG Adapters</div>
+                            <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700">Fast-Charging Cables</div>
+                            <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700">Earphones</div>
+                            <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700">Computer Mice</div>
+                            <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700">Batteries</div>
+                            <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700">Calculators</div>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-lg">
+                        <h3 class="font-bold text-emerald-900 text-sm mb-1">Zero-Capital Referral Notice Board</h3>
+                        <p class="text-xs text-emerald-800">Dedicated corner notice board linking clients to your uncle's T-shirt printing shop and your other uncle's digital advertising shop to earn commission on referral orders.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 06: Initial Capital Summary -->
+            <section id="capital" class="tab-content hidden bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <div class="border-b border-slate-100 pb-4 mb-6">
+                    <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Section 06</span>
+                    <h2 class="text-xl md:text-2xl font-bold text-slate-900 mt-1">Initial Capital & Cost Summary</h2>
+                </div>
+                <div class="space-y-4 text-slate-600">
+                    <p class="text-xs text-slate-500">Estimated market price ranges (LKR) for setting up the shop interior, equipment, branding, and starter stock:</p>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border border-slate-200 rounded-lg overflow-hidden">
+                            <thead class="bg-slate-50 text-slate-700 border-b border-slate-200">
+                                <tr>
+                                    <th class="p-3 font-semibold">Category</th>
+                                    <th class="p-3 font-semibold">Items Included</th>
+                                    <th class="p-3 font-semibold text-right">Estimated Range (LKR)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <tr>
+                                    <td class="p-3 font-medium text-slate-800">Furniture Setup</td>
+                                    <td class="p-3 text-slate-600">Office chairs, work tables, storage cabinets, book racks, waiting chairs</td>
+                                    <td class="p-3 text-right font-medium text-slate-800">Rs. 138,000 – Rs. 228,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium text-slate-800">Core Hardware & Equipment</td>
+                                    <td class="p-3 text-slate-600">PCs/Laptops, multi-function printer, laminator, internet setup</td>
+                                    <td class="p-3 text-right font-medium text-slate-800">Rs. 260,000 – Rs. 435,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium text-slate-800">Branding & Signage</td>
+                                    <td class="p-3 text-slate-600">Outdoor signboard, founder T-shirts</td>
+                                    <td class="p-3 text-right font-medium text-slate-800">Rs. 28,000 – Rs. 56,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium text-slate-800">Retail Starter Stock</td>
+                                    <td class="p-3 text-slate-600">Stationery & quick-sell electronic accessories starter inventory</td>
+                                    <td class="p-3 text-right font-medium text-slate-800">Rs. 20,000 – Rs. 35,000</td>
+                                </tr>
+                            </tbody>
+                            <tfoot class="bg-emerald-50 font-bold text-emerald-900 border-t border-slate-200">
+                                <tr>
+                                    <td colspan="2" class="p-3">Total Estimated Startup Capital Range</td>
+                                    <td class="p-3 text-right">Rs. 446,000 – Rs. 754,000</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 07: Software & AI Stack -->
+            <section id="tech" class="tab-content hidden bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <div class="border-b border-slate-100 pb-4 mb-6">
+                    <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Section 07</span>
+                    <h2 class="text-xl md:text-2xl font-bold text-slate-900 mt-1">Software & Paid AI Stack</h2>
+                </div>
+                <div class="space-y-4 text-slate-600">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg">
+                            <h3 class="font-bold text-slate-800 text-sm mb-1">Paid Gemini Subscription</h3>
+                            <p class="text-xs text-slate-600">Used as a 24/7 technical co-founder for web coding, client copywriting, university IT research structuring, and marketing campaigns.</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg">
+                            <h3 class="font-bold text-slate-800 text-sm mb-1">Development & Design Tools</h3>
+                            <p class="text-xs text-slate-600">VS Code for website development (`vaddo.lk`), Canva & Figma for digital wedding invites, branding, and client graphics.</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg">
+                            <h3 class="font-bold text-slate-800 text-sm mb-1">Marketing & Operations</h3>
+                            <p class="text-xs text-slate-600">Meta Business Suite for running local small business ad campaigns and centralized Booking.com account for hotel bookings.</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg">
+                            <h3 class="font-bold text-slate-800 text-sm mb-1">Network & Connectivity</h3>
+                            <p class="text-xs text-slate-600">Fiber high-speed internet connection backed up by a 4G router for zero downtime during peak digital operations.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Script to handle tabs, checkboxes, and notes -->
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+
+            document.querySelectorAll('.binder-tab').forEach(el => el.classList.remove('active'));
+            document.querySelector(`[data-target="${tabId}"]`).classList.add('active');
+        }
+
+        function updateProgress() {
+            const items = document.querySelectorAll('.checklist-item');
+            const checked = document.querySelectorAll('.checklist-item:checked');
+            const percent = items.length ? Math.round((checked.length / items.length) * 100) : 0;
+            
+            document.getElementById('progressBar').style.width = percent + '%';
+            document.getElementById('progressText').innerText = percent + '% Completed';
+
+            // Save state
+            const states = Array.from(items).map(item => item.checked);
+            localStorage.setItem('vaddo_checklist', JSON.stringify(states));
+        }
+
+        function saveNotes(section) {
+            const val = document.getElementById('notes-' + section).value;
+            localStorage.setItem('vaddo_notes_' + section, val);
+        }
+
+        function resetData() {
+            if(confirm('Are you sure you want to reset all checklist progress?')) {
+                document.querySelectorAll('.checklist-item').forEach(item => item.checked = false);
+                localStorage.removeItem('vaddo_checklist');
+                updateProgress();
+            }
+        }
+
+        // Load saved state on startup
+        window.onload = function() {
+            const savedChecklist = localStorage.getItem('vaddo_checklist');
+            if(savedChecklist) {
+                const states = JSON.parse(savedChecklist);
+                const items = document.querySelectorAll('.checklist-item');
+                items.forEach((item, idx) => {
+                    if(states[idx] !== undefined) item.checked = states[idx];
+                });
+                updateProgress();
+            }
+
+            const savedVisionNotes = localStorage.getItem('vaddo_notes_vision');
+            if(savedVisionNotes) {
+                document.getElementById('notes-vision').value = savedVisionNotes;
+            }
+        }
+    </script>
+</body>
+</html>
